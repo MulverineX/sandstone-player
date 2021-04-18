@@ -12,7 +12,7 @@ export function newLabel (label: string) {
 }
 
 /**
- * Returns an optionally initialized PlayerScore for a namespaced Objective that defaults to dummy
+ * Returns an optionally initialized Score for a namespaced Objective that defaults to dummy
  * @param name Objective name
  * @param initialize Whether to initialize the score with a value
  * @param type Objective type
