@@ -1,10 +1,9 @@
-import { execute, Objective, _, comment as $ } from 'sandstone';
+import { Objective, _, comment as $, Data } from 'sandstone';
 import { Direction } from '../direction';
 
 export default function (input: Direction) {
    $('Get Rotation');
-    execute.store.result.score(input.absolute.rotation).run.
-      data.get.entity('@s', 'Rotation[0]', 1000);
+   input.absolute.rotation.set(Data('entity', '@s').select('Rotation[0]'), 1000);
 
    $('');
    $('Define values');

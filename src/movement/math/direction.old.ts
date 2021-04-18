@@ -1,6 +1,6 @@
 import { Direction } from '../direction';
 import { newScore, newLabel } from '../../utils';
-import { execute, comment as $, MCFunction, _ } from 'sandstone';
+import { comment as $, MCFunction, _, Data } from 'sandstone';
 
 const scale = (x: number) => x*1000;
 
@@ -13,8 +13,7 @@ export default function (input: Direction) {
 
   const math = MCFunction('_wasd/math', () => {
     $('# Get Rotation');
-    execute.store.result.score(absolute_rotation).run.
-      data.get.entity('@s', 'Rotation[0]', 1000);
+    absolute_rotation.set(Data('entity', '@s').select('Rotation[0]'), 1000)
 
     _.if(absolute_rotation.matches([null, 0]), () => { absolute_rotation.add(scale(360)) })
 

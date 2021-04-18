@@ -1,10 +1,12 @@
-import { MCFunction, tellraw, _, Predicate, execute, comment as $ } from 'sandstone';
+import { MCFunction, tellraw, _, Predicate, comment as $, Data } from 'sandstone';
 import calculate from './math/direction.old';
 import math from './math/direction';
 import { newScore, newLabel, parse_id } from '../utils';
 
 
 const directions = [ 'backward', 'backward_left', 'left', 'forward_left', 'forward', 'forward_right', 'right', 'backward_right' ] as const;
+
+const self = Data('entity','@s');
 
 /**
  * The directions the player is inputting.
@@ -205,11 +207,9 @@ const walking = MCFunction('_wasd/walking', () => {
 
   $('Store position to scores for access');
 
-  execute.store.result.score(current.X).run.
-    data.get.entity('@s', 'Pos[0]', 1000);
+  current.X.set(self.select('Pos[0]'), 1000);
 
-  execute.store.result.score(current.Z).run.
-    data.get.entity('@s', 'Pos[2]', 1000);
+  current.Z.set(self.select('Pos[2]'), 1000);
 
   input.absolute.vector.X.set(current.X).remove(old.X);
 
@@ -226,11 +226,9 @@ const mounted = MCFunction('_wasd/mounted', () => {
 
   $('Store motion to scores for access');
 
-  execute.store.result.score(input.absolute.vector.X).run.
-    data.get.entity('@s', 'Motion[0]', 1000);
+  current.X.set(self.select('Motion[0]'), 1000);
 
-  execute.store.result.score(input.absolute.vector.Z).run.
-    data.get.entity('@s', 'Motion[2]', 1000);
+  current.Z.set(self.select('Motion[2]'), 1000);
 
   ensure_motion();
 });
