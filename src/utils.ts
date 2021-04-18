@@ -1,5 +1,5 @@
-import { createObjective, PlayerScore } from "sandstone/variables";
-import { createLabel } from "sandstone-label";
+import { createObjective, PlayerScore } from "sandstone";
+import { Label } from "sandstone-label";
 
 const namespace = { full: 'player', short: 'plyr' };
 
@@ -8,7 +8,7 @@ const namespace = { full: 'player', short: 'plyr' };
  * @param label Label/tag name
  */
 export function newLabel (label: string) {
-  return createLabel(`${namespace.full}.${label}`);
+  return Label(`${namespace.full}.${label}`)('@s');
 }
 
 /**

@@ -1,6 +1,4 @@
-import { comment as $, execute, tellraw } from 'sandstone/commands';
-import { MCFunction, Predicate, _ } from 'sandstone/core';
-import { addLabel, removeLabel } from 'sandstone-label';
+import { MCFunction, tellraw, _, Predicate, execute, comment as $ } from 'sandstone';
 import calculate from './math/direction.old';
 import math from './math/direction';
 import { newScore, newLabel, parse_id, readScore } from '../utils';
@@ -120,15 +118,15 @@ export class Direction {
 const input = new Direction();
 
 const main = MCFunction('_wasd/get_direction', () => {
-  addLabel(input.moving);
+  input.moving.add();
 
   $('Clear flags');
   input.score.set(0);
 
-  removeLabel(input.forward);
-  removeLabel(input.backward);
-  removeLabel(input.left);
-  removeLabel(input.right);
+  input.forward.remove();
+  input.backward.remove();
+  input.left.remove();
+  input.right.remove();
 
   $('Run calculations & output')
   const local_rotation = calculate(input);
@@ -169,15 +167,15 @@ const main = MCFunction('_wasd/get_direction', () => {
   $('Backward')
 
   // _.or is broken
-  _.if(input.score.equalTo(8), () => { addLabel(input.backward) });
-  _.if(input.score.matches([1, 2]), () => { addLabel(input.backward) });
+  _.if(input.score.equalTo(8), () => { input.backward.add() });
+  _.if(input.score.matches([1, 2]), () => { input.backward.add() });
 
   let num = 2;
 
   for (const cardinal of input.cardinals.slice(1).map(x => input[x])) {
-    $(parse_id(cardinal.name.split('.')[1]));
+    $(parse_id(cardinal.label.name.split('.')[1]));
 
-    _.if(input.score.matches([num, num + 2]), () => { addLabel(cardinal) });
+    _.if(input.score.matches([num, num + 2]), () => { cardinal.add() });
 
     num += 2;
   }
@@ -190,7 +188,7 @@ export const is_mounted = Predicate('is_mounted', {
 });
 
 function ensure_motion() {
-  removeLabel(input.moving);
+  input.moving.remove();
 
   $('Ensure there is a vector');
   _.if(_.not(_.and(
@@ -203,7 +201,7 @@ const old =     { X: newScore('ovec_x'), Z: newScore('ovec_z') },
       current = { X: newScore('cvec_x'), Z: newScore('cvec_z') };
 
 const walking = MCFunction('_wasd/walking', () => {
-  removeLabel(input.mounted);
+  input.mounted.remove();
 
   $('Store position to scores for access');
 
@@ -224,7 +222,7 @@ const walking = MCFunction('_wasd/walking', () => {
 });
 
 const mounted = MCFunction('_wasd/mounted', () => {
-  addLabel(input.mounted);
+  input.mounted.add();
 
   $('Store motion to scores for access');
 

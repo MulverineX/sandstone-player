@@ -2,6 +2,8 @@
 
 A [Sandstone](https://github.com/TheMrZZ/sandstone) data pack library for interfacing with the Player
 
+Uses my [Label](https://github.com/MulverineX/sandstone-label) library to make tag usage easier.
+
 To build the datapack, run:
 ```ts
 npm run build

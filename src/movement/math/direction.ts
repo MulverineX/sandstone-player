@@ -1,6 +1,4 @@
-import { execute, comment as $ } from 'sandstone/commands';
-import { _ } from 'sandstone/core';
-import { createObjective } from 'sandstone/variables';
+import { execute, createObjective, _, comment as $ } from 'sandstone';
 import { Direction } from '../direction';
 
 export default function (input: Direction) {
@@ -40,7 +38,7 @@ export default function (input: Direction) {
    _.if(calc.z.matches([ null, -1 ]), () => { calc.z.multiply(-1) });
    // execute if score #math_03 value < #math_04 value run scoreboard players operation #math_05 value = #math_03 value
    // execute if score #math_03 value >= #math_04 value run scoreboard players operation #math_05 value = #math_04 value
-   _.if(calc.x.lowerThan(calc.z), () => { calc.a.set(calc.x)})
+   _.if(calc.x.lessThan(calc.z), () => { calc.a.set(calc.x)})
    .else(() => { calc.a.set(calc.z) });
    // scoreboard players operation #math_05 value *= #1000 value
    calc.a.multiply(1000);
@@ -65,7 +63,7 @@ export default function (input: Direction) {
    // execute if score #math_07 value matches 4 if score #math_03 value <= #math_04 value run scoreboard players set #math_08 value 2
    _.if(_.or(
          _.and(calc.c.matches(0), calc.x.greaterThan(calc.z)),
-         _.and(calc.c.matches(4), calc.x.lowerOrEqualThan(calc.z))), 
+         _.and(calc.c.matches(4), calc.x.lessOrEqualThan(calc.z))), 
       () => { calc.d.set(2) }
    // execute if score #math_08 value matches 0 if score #math_05 value matches 414.. run scoreboard players set #math_09 value 1
    ).elseIf(calc.a.matches([ 414, null ]), () => { calc.e.set(1) });
