@@ -26,8 +26,6 @@ export function newScore (name: string, initialize: number | Score | false = fal
   return score;
 }
 
-export function readScore(score: Score) { return { objective: score.objective.name, name: score.target }; }
-
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 /**

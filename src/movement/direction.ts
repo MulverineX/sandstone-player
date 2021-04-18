@@ -1,7 +1,7 @@
 import { MCFunction, tellraw, _, Predicate, execute, comment as $ } from 'sandstone';
 import calculate from './math/direction.old';
 import math from './math/direction';
-import { newScore, newLabel, parse_id, readScore } from '../utils';
+import { newScore, newLabel, parse_id } from '../utils';
 
 
 const directions = [ 'backward', 'backward_left', 'left', 'forward_left', 'forward', 'forward_right', 'right', 'backward_right' ] as const;
@@ -133,7 +133,7 @@ const main = MCFunction('_wasd/get_direction', () => {
 
   $('')
   $('-- new math --');
-  tellraw('@s', { score: readScore(math(input)) });
+  tellraw('@s', math(input));
   $('-- new math --');
   $('')
 
