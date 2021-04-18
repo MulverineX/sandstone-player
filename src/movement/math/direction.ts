@@ -1,4 +1,4 @@
-import { execute, createObjective, _, comment as $ } from 'sandstone';
+import { execute, Objective, _, comment as $ } from 'sandstone';
 import { Direction } from '../direction';
 
 export default function (input: Direction) {
@@ -15,21 +15,21 @@ export default function (input: Direction) {
    // scoreboard players operation #math_02 value -= @s z_previous
    const vec_x = input.absolute.vector.X,
          vec_z = input.absolute.vector.Z,
-         math = createObjective('wasd._calc'),
+         math = Objective.create('wasd._calc'),
          calc = {
             // scoreboard players operation #math_03 value = #math_01 value
             // scoreboard players operation #math_04 value = #math_02 value
-            x: math.ScoreHolder('#x').set(vec_x),
-            z: math.ScoreHolder('#z').set(vec_z),
+            x: math('#x').set(vec_x),
+            z: math('#z').set(vec_z),
             // scoreboard players set #math_06 value 0
             // scoreboard players set #math_07 value 0
             // scoreboard players set #math_08 value 0
             // scoreboard players set #math_09 value 0
-            a: math.ScoreHolder('#a').set(0),
-            b: math.ScoreHolder('#b').set(0),
-            c: math.ScoreHolder('#c').set(0),
-            d: math.ScoreHolder('#d').set(0),
-            e: math.ScoreHolder('#e').set(0),
+            a: math('#a').set(0),
+            b: math('#b').set(0),
+            c: math('#c').set(0),
+            d: math('#d').set(0),
+            e: math('#e').set(0),
          };
 
    // execute if score #math_03 value matches ..-1 run scoreboard players operation #math_03 value *= #-1 value

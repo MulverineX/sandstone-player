@@ -1,4 +1,4 @@
-import { createObjective, PlayerScore } from "sandstone";
+import { Objective, Score } from "sandstone";
 import { Label } from "sandstone-label";
 
 const namespace = { full: 'player', short: 'plyr' };
@@ -17,16 +17,16 @@ export function newLabel (label: string) {
  * @param initialize Whether to initialize the score with a value
  * @param type Objective type
  */
-export function newScore (name: string, initialize: number | PlayerScore | false = false, type = 'dummy') {
+export function newScore (name: string, initialize: number | Score | false = false, type = 'dummy') {
 
-  const score = createObjective(`${namespace.short}.${name}`, type).ScoreHolder('@s');
+  const score = Objective.create(`${namespace.short}.${name}`, type)('@s');
 
   if (initialize) score.set(initialize as any); // TypeScript moment :keuch:
 
   return score;
 }
 
-export function readScore(score: PlayerScore) { return { objective: score.objective.name, name: score.target }; }
+export function readScore(score: Score) { return { objective: score.objective.name, name: score.target }; }
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 

@@ -1,8 +1,6 @@
-import { comment as $, execute } from 'sandstone/commands';
-import { MCFunction, _ } from 'sandstone/core';
-import { addLabel, hasLabel as is, removeLabel } from 'sandstone-label';
 import { Direction } from '../direction';
 import { newScore, newLabel } from '../../utils';
+import { execute, comment as $, MCFunction, _ } from 'sandstone';
 
 const scale = (x: number) => x*1000;
 
@@ -29,9 +27,9 @@ export default function (input: Direction) {
     const sine = () => {
       $("Calculate sine using Bhaskara I's approx.");
 
-      _.if(calculate[0].greaterOrEqualThan(scale(180)), () => { addLabel(negate) });
+      _.if(calculate[0].greaterOrEqualThan(scale(180)), () => { negate.add() });
 
-      _.if(is(negate), () => { calculate[0].remove(scale(180)) });
+      _.if(negate, () => { calculate[0].remove(scale(180)) });
 
       calculate[1].set(scale(180))
                   .remove(calculate[0]).divide(1000)
@@ -44,9 +42,9 @@ export default function (input: Direction) {
       calculate[0].divide(1000);
       calculate[1].divide(calculate[0]);
 
-      _.if(is(negate), () => { calculate[1].multiply(-1) });
+      _.if(negate, () => { calculate[1].multiply(-1) });
 
-      removeLabel(negate);
+      negate.remove();
     }
     
     sine();
@@ -82,7 +80,7 @@ export default function (input: Direction) {
     calculate[0].remove(temp[0]);
 
     calculate[0].multiply(10);
-    _.if(calculate[0].lowerOrEqualThan(-1), () => { addLabel(negate) });
+    _.if(calculate[0].lessOrEqualThan(-1), () => { negate.add() });
 
     $('# Calculate determinant')
     calculate[1].set(vec_x);
@@ -94,23 +92,23 @@ export default function (input: Direction) {
 
     $('');
 
-    _.if(calculate[1].greaterOrEqualThan(1), () => { addLabel(input.forward) })
+    _.if(calculate[1].greaterOrEqualThan(1), () => input.forward.add() )
 
-    .elseIf(calculate[1].lowerOrEqualThan(-1), () => addLabel(input.backward));
+    .elseIf(calculate[1].lessOrEqualThan(-1), () => input.backward.add() );
 
     $('# Calculate Local Rotation')
     $('Calculate arc tangent (atan2)')
     calculate[0].divide(calculate[1])
 
     const flip = newLabel('_flip');
-    _.if(calculate[0].lowerOrEqualThan(-1), () => { addLabel(flip) });
+    _.if(calculate[0].lessOrEqualThan(-1), () => flip.add() );
 
-    _.if(is(flip), () => { calculate[0].multiply(-1) });
+    _.if(flip, () => { calculate[0].multiply(-1) });
 
     const invert = newLabel('_invert');
-    _.if(calculate[0].greaterOrEqualThan(11), () => { addLabel(invert) });
+    _.if(calculate[0].greaterOrEqualThan(11), () => invert.add() );
 
-    _.if(is(invert), () => {
+    _.if(invert, () => {
       calculate[1].set(calculate[0]);
 
       calculate[0].set(100).divide(calculate[1]);
@@ -127,36 +125,36 @@ export default function (input: Direction) {
 
     calculate[0].multiply(temp[1]);
 
-    _.if(is(invert), () => {
+    _.if(invert, () => {
       calculate[1].set(calculate[0]);
 
       calculate[0].set(900)
                   .remove(calculate[1]);
     })
 
-    _.if(is(flip), () => {
+    _.if(flip, () => {
       calculate[1].set(calculate[0]);
 
       calculate[0].set(1800)
                   .remove(calculate[1]);
     })
 
-    _.if(is(negate), () => {
+    _.if(negate, () => {
       calculate[1].set(calculate[0]);
 
       calculate[0].set(1800)
                   .remove(calculate[1]).multiply(-1);
     })
 
-    _.if(_.and(calculate[0].equalTo(-1800), is(input.forward)), () => { calculate[0].set(0) });
+    _.if(_.and(calculate[0].equalTo(-1800), input.forward), () => { calculate[0].set(0) });
 
-    _.if(_.and(calculate[0].equalTo(0), is(input.backward)), () => { calculate[0].set(1800) });
+    _.if(_.and(calculate[0].equalTo(0), input.backward), () => { calculate[0].set(1800) });
 
-    removeLabel(flip);
-    removeLabel(invert);
-    removeLabel(negate);
-    removeLabel(input.forward);
-    removeLabel(input.backward);
+    flip.remove();
+    invert.remove();
+    negate.remove();
+    input.forward.remove();
+    input.backward.remove();
     $('');
     $('atan2 approximation');
     $('atan2(x) = x(45-(x-1)(14+3.83x))');
